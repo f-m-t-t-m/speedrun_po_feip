@@ -1,0 +1,174 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="create-product-tables" author="aglicheev">
+
+        <createTable tableName="categories">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="category_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="parent_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_parent_id" references="categories(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="products">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="product_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="brand" type="VARCHAR(50)"/>
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_category_id" references="categories(id)"/>
+            </column>
+            <column name="description" type="TEXT"/>
+        </createTable>
+        
+        <createTable tableName="product_attributes">
+            <column autoIncrement="true" name="sku" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="product_attributes_pkey"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_id" references="products(id)"/>
+            </column>
+            <column name="size" type="VARCHAR(10)"/>
+            <column name="color" type="VARCHAR(10)"/>
+            <column name="stock" type="INT"/>
+            <column name="price" type="NUMERIC"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="populate-categories" author="aglicheev">
+        <insert tableName="categories">
+            <column name="name" value="Верхняя одежда"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Пиджаки, жакеты, костюмы"/>
+            <column name="parent_id" value="1" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Пуховики, утепленные куртки"/>
+            <column name="parent_id" value="1" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Кожанные куртки"/>
+            <column name="parent_id" value="1" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Плащи"/>
+            <column name="parent_id" value="1" />
+        </insert>
+
+        <insert tableName="categories">
+            <column name="name" value="Одежда"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Футболки, топы"/>
+            <column name="parent_id" value="6" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Блузки, рубашки"/>
+            <column name="parent_id" value="6" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Брюки, джинсы, леггинсы"/>
+            <column name="parent_id" value="6" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Свитера, толстовки, кардиганы"/>
+            <column name="parent_id" value="6" />
+        </insert>
+
+        <insert tableName="categories">
+            <column name="name" value="Аксессуары"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Носки"/>
+            <column name="parent_id" value="11" />
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Шапки, шарфы, перчатки"/>
+            <column name="parent_id" value="11" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="populate-products" author="aglicheev">
+        <insert tableName="products">
+            <column name="name" value="Nike Everyday Plus"/>
+            <column name="brand" value="Nike"/>
+            <column name="category_id" value="12"/>
+            <column name="description" value="A true hybrid of style and comfort, the Nike Everyday Plus Crew Socks are cushioned in keys zones to keep you comfortable throughout the day. Dri-FIT fabric and breathable mesh at the top of your foot help keep your feet feeling cool and dry while an arch band provides a snug fit." />
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="size" value="S"/>
+            <column name="color" value="ORANGE"/>
+            <column name="stock" value="10"/>
+            <column name="price" value="800"/>
+            <column name="product_id" value="1"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="size" value="M"/>
+            <column name="color" value="ORANGE"/>
+            <column name="stock" value="10"/>
+            <column name="price" value="800"/>
+            <column name="product_id" value="1"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="size" value="L"/>
+            <column name="color" value="BLACK"/>
+            <column name="stock" value="10"/>
+            <column name="price" value="800"/>
+            <column name="product_id" value="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Nike Sportswear Premium Essentials"/>
+            <column name="brand" value="Nike"/>
+            <column name="category_id" value="6"/>
+            <column name="description" value="The Nike Sportswear Premium Essentials T-Shirt has a loose fit for a carefree, comfortable look. Its heavyweight organic cotton fabric feels thick and soft. This product is made with at least 75% organic cotton fibers." />
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="size" value="L"/>
+            <column name="color" value="VIOLET"/>
+            <column name="stock" value="10"/>
+            <column name="price" value="2000"/>
+            <column name="product_id" value="2"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="create-image-table" author="Aglicheev">
+        <createTable tableName="images">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="images_pkey"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_image_product_id" references="products(id)"/>
+            </column>
+            <column name="color" type="VARCHAR(10)"/>
+            <column name="url" type="VARCHAR(100)"/>
+        </createTable>
+
+        <insert tableName="images">
+            <column name="product_id" value="1"/>
+            <column name="color" value="ORANGE"/>
+            <column name="url" value="/image/1/orange.jpg"/>
+        </insert>
+
+        <insert tableName="images">
+            <column name="product_id" value="1"/>
+            <column name="color" value="BLACK"/>
+            <column name="url" value="/image/1/black.jpg"/>
+        </insert>
+
+        <insert tableName="images">
+            <column name="product_id" value="2"/>
+            <column name="color" value="VIOLET"/>
+            <column name="url" value="/image/2/violet.jpg"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
