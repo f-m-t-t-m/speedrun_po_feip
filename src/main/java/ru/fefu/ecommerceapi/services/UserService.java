@@ -18,6 +18,6 @@ public class UserService extends PaginationService<UserDto> implements UserDetai
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByPhone(username).orElseThrow(() ->
-                new UsernameNotFoundException(String.format("Can't find user with username: %s", username)));
+                new UsernameNotFoundException(String.format("Не найден пользователь с телефоном: %s", username)));
     }
 }

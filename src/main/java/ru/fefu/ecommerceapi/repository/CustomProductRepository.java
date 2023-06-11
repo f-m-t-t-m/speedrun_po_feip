@@ -2,14 +2,12 @@ package ru.fefu.ecommerceapi.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import jakarta.persistence.criteria.*;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
-import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.dto.enums.Color;
+import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
 
@@ -31,7 +29,7 @@ public class CustomProductRepository {
         List<Predicate> predicates = createPredicates(cb, root, filters);
 
         return em
-                .createQuery(query.select(cb.count(root)).where(predicates.toArray(new Predicate[predicates.size() ])))
+                .createQuery(query.select(cb.count(root)).where(predicates.toArray(new Predicate[predicates.size()])))
                 .getSingleResult();
     }
 
@@ -49,10 +47,10 @@ public class CustomProductRepository {
         Root<Product> idRoot = idQuery.from(Product.class);
         List<Predicate> predicates = createPredicates(cb, idRoot, paginationParams.getFilters());
         List<Long> ids = em.createQuery(idQuery.select(idRoot.get("id")).distinct(true)
-                        .where(predicates.toArray(new Predicate[ predicates.size() ])))
-                        .setFirstResult((paginationParams.getCurrentPage() - 1) * paginationParams.getItemsOnPage())
-                        .setMaxResults(paginationParams.getItemsOnPage())
-                        .getResultList();
+                        .where(predicates.toArray(new Predicate[predicates.size()])))
+                .setFirstResult((paginationParams.getCurrentPage() - 1) * paginationParams.getItemsOnPage())
+                .setMaxResults(paginationParams.getItemsOnPage())
+                .getResultList();
 
         root.fetch("productAttributes", JoinType.INNER);
         root.fetch("images", JoinType.LEFT);
@@ -77,7 +75,7 @@ public class CustomProductRepository {
 
     private List<Predicate> createPredicates(CriteriaBuilder cb, Root<Product> root, Map<String, String> filters) {
         List<Predicate> predicates = new ArrayList<>();
-        for (var entry: filters.entrySet()) {
+        for (var entry : filters.entrySet()) {
             if (StringUtils.isBlank(entry.getValue())) {
                 continue;
             }

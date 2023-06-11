@@ -18,6 +18,7 @@ public class ActivationCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
+    private LocalDateTime issueDate;
     private LocalDateTime expirationDate;
     @OneToOne(fetch = FetchType.LAZY)
     private User user;

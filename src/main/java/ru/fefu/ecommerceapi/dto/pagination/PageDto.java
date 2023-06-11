@@ -1,9 +1,7 @@
 package ru.fefu.ecommerceapi.dto.pagination;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;

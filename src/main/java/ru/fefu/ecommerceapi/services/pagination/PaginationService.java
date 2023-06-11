@@ -24,7 +24,7 @@ public class PaginationService<T> {
         PaginationAbleI<T> paginationAble =
                 (PaginationAbleI<T>) paginationAbleMap.get(paginationParams.getPaginationAbleClass());
         long count = paginationAble.count(paginationParams);
-        pageDto.setLastPage((count+paginationParams.getItemsOnPage()-1) / paginationParams.getItemsOnPage());
+        pageDto.setLastPage((count + paginationParams.getItemsOnPage() - 1) / paginationParams.getItemsOnPage());
         pageDto.setData(paginationAble.getPage(paginationParams));
 
         return pageDto;

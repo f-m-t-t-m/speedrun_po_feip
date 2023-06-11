@@ -2,7 +2,6 @@ package ru.fefu.ecommerceapi.dto.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.fefu.ecommerceapi.dto.enums.Color;
 
 import java.math.BigDecimal;
 

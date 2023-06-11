@@ -1,8 +1,10 @@
 package ru.fefu.ecommerceapi.services;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.fefu.ecommerceapi.dto.order.OrderCreateDto;
 import ru.fefu.ecommerceapi.dto.order.OrderCreateProductVariation;
 import ru.fefu.ecommerceapi.dto.order.OrderDto;
@@ -13,13 +15,13 @@ import ru.fefu.ecommerceapi.exceptions.OrderException;
 import ru.fefu.ecommerceapi.mappers.AddressMapper;
 import ru.fefu.ecommerceapi.mappers.ProductVariationRepository;
 import ru.fefu.ecommerceapi.repository.OrderRepository;
-import ru.fefu.ecommerceapi.repository.ProductVariationOrderRepository;
 import ru.fefu.ecommerceapi.services.pagination.PaginationService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class OrderService extends PaginationService<OrderDto> {
 
@@ -28,7 +30,7 @@ public class OrderService extends PaginationService<OrderDto> {
     private final AddressMapper addressMapper;
 
     @Transactional
-    public void create(OrderCreateDto orderCreateDto) {
+    public void create(@Valid OrderCreateDto orderCreateDto) {
         Order order = Order.builder()
                 .name(orderCreateDto.getName())
                 .email(orderCreateDto.getEmail())
@@ -38,7 +40,7 @@ public class OrderService extends PaginationService<OrderDto> {
                 .build();
 
         List<ProductVariationOrder> productVariationOrderList = new ArrayList<>();
-        for (OrderCreateProductVariation product: orderCreateDto.getProductVariation()) {
+        for (OrderCreateProductVariation product : orderCreateDto.getProductVariation()) {
             ProductVariation productVariation = productRepository.findBySku(product.getId())
                     .orElseThrow(OrderException::new);
             if (productVariation.getStock() < product.getCount()) {

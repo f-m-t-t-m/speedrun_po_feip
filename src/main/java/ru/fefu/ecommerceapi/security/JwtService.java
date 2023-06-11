@@ -7,13 +7,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.entity.User;
 import ru.fefu.ecommerceapi.services.UserService;
 
 import java.security.Key;
@@ -33,12 +31,12 @@ public class JwtService {
 
     public String createJwt(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
-            .setClaims(extraClaims)
-            .setSubject(userDetails.getUsername())
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration.toMillis()))
-            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-            .compact();
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration.toMillis()))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public boolean validateJwt(String token) throws JwtException {

@@ -25,7 +25,7 @@ public class ImageService {
     public void saveImages(List<ImageCreateDto> imagesDto, Product product) {
         List<Image> images = new ArrayList<>();
         try {
-            for (ImageCreateDto image: imagesDto) {
+            for (ImageCreateDto image : imagesDto) {
                 Files.createDirectories(Path.of("src/main/images/" + product.getId()));
                 String path = String.format("src/main/images/%d/%s",
                         product.getId(), image.getFile().getOriginalFilename());
@@ -41,7 +41,7 @@ public class ImageService {
     }
 
     public void deleteImages(Long productId, List<ImageDto> imageDtos) {
-        for (ImageDto imageDto: imageDtos) {
+        for (ImageDto imageDto : imageDtos) {
             String imageFileName = imageDto.getUrl().substring(imageDto.getUrl().lastIndexOf('/') + 1);
             File image = new File(String.format("src/main/images/%d/%s", productId, imageFileName));
             if (!image.isFile()) {

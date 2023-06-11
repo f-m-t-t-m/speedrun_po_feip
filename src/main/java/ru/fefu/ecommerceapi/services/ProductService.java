@@ -1,8 +1,10 @@
 package ru.fefu.ecommerceapi.services;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
 import ru.fefu.ecommerceapi.dto.product.ProductDto;
 import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
@@ -14,6 +16,7 @@ import ru.fefu.ecommerceapi.services.pagination.PaginationService;
 
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class ProductService extends PaginationService<ProductDto> {
 
@@ -28,7 +31,7 @@ public class ProductService extends PaginationService<ProductDto> {
     }
 
     @Transactional
-    public void saveProduct(ProductCreateDto productCreateDto) {
+    public void saveProduct(@Valid ProductCreateDto productCreateDto) {
         Product product = productMapper.createDtoToEntity(productCreateDto);
         product.getProductAttributes().forEach(attr -> attr.setProduct(product));
         productRepository.save(product);
@@ -36,7 +39,7 @@ public class ProductService extends PaginationService<ProductDto> {
     }
 
     @Transactional
-    public void update(Long id, ProductUpdateDto productUpdateDto) {
+    public void update(Long id, @Valid ProductUpdateDto productUpdateDto) {
         Product product = productRepository.findByIdWithVariations(id)
                 .orElseThrow(NotFoundException::new);
         productMapper.updateProduct(productUpdateDto, product);

@@ -1,9 +1,6 @@
 package ru.fefu.ecommerceapi.mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MapperConfig;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import ru.fefu.ecommerceapi.dto.auth.UserDto;
 import ru.fefu.ecommerceapi.entity.User;
 
@@ -15,5 +12,7 @@ public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
     UserDto entityToDto(User user);
+
+    void updateUser(UserDto userDto, @MappingTarget User user);
 
 }

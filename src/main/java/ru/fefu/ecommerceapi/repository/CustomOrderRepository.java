@@ -48,7 +48,7 @@ public class CustomOrderRepository {
             query.orderBy(order);
         }
         return em.createQuery(query.select(root)
-                .where(root.get("id").in(ids)))
+                        .where(root.get("id").in(ids)))
                 .getResultList();
     }
 

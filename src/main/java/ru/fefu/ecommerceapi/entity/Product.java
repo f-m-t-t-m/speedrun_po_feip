@@ -1,7 +1,10 @@
 package ru.fefu.ecommerceapi.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -29,7 +32,7 @@ public class Product {
             orphanRemoval = true)
     private Set<ProductVariation> productAttributes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST ,CascadeType.MERGE})
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Image> images = new LinkedHashSet<>();
 
 }

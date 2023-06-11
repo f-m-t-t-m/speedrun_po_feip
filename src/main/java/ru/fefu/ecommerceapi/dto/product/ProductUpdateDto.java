@@ -1,5 +1,7 @@
 package ru.fefu.ecommerceapi.dto.product;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.fefu.ecommerceapi.dto.order.ProductVariationDto;
@@ -12,9 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductUpdateDto {
 
+    @NotBlank
     private String name;
+    @NotBlank
     private String brand;
     private String description;
+    @NotNull
     private Category category;
     private List<ProductVariationDto> productAttributes = new ArrayList<>();
     private List<ImageCreateDto> imagesToAdd = new ArrayList<>();

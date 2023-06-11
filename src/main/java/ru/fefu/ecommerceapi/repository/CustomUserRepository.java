@@ -3,14 +3,15 @@ package ru.fefu.ecommerceapi.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.entity.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class CustomUserRepository {
         List<Predicate> predicates = createPredicates(cb, root, filters);
 
         return em
-                .createQuery(query.select(cb.count(root)).where(predicates.toArray(new Predicate[predicates.size() ])))
+                .createQuery(query.select(cb.count(root)).where(predicates.toArray(new Predicate[predicates.size()])))
                 .getSingleResult();
     }
 
@@ -40,7 +41,7 @@ public class CustomUserRepository {
                     cb.asc(root.get(paginationParams.getSortingBy()));
             query.orderBy(order);
         }
-        return em.createQuery(query.select(root).where(predicates.toArray(new Predicate[predicates.size() ])))
+        return em.createQuery(query.select(root).where(predicates.toArray(new Predicate[predicates.size()])))
                 .setFirstResult((paginationParams.getCurrentPage() - 1) * paginationParams.getItemsOnPage())
                 .setMaxResults(paginationParams.getItemsOnPage())
                 .getResultList();
@@ -48,7 +49,7 @@ public class CustomUserRepository {
 
     private List<Predicate> createPredicates(CriteriaBuilder cb, Root<User> root, Map<String, String> filters) {
         List<Predicate> predicates = new ArrayList<>();
-        for (var entry: filters.entrySet()) {
+        for (var entry : filters.entrySet()) {
             if (StringUtils.isBlank(entry.getValue())) {
                 continue;
             }

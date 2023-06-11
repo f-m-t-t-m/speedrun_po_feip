@@ -1,10 +1,10 @@
 package ru.fefu.ecommerceapi.mappers;
 
 import org.mapstruct.*;
+import ru.fefu.ecommerceapi.dto.enums.Color;
 import ru.fefu.ecommerceapi.dto.product.ProductAttributesDto;
 import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
 import ru.fefu.ecommerceapi.dto.product.ProductDto;
-import ru.fefu.ecommerceapi.dto.enums.Color;
 import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
@@ -25,8 +25,8 @@ public interface ProductMapper {
     default Map<String, Map<Color, List<ProductAttributesDto>>> productsAttributesToMap(Set<ProductVariation> productAttributes) {
         return productAttributes.stream()
                 .collect(Collectors.groupingBy(ProductVariation::getSize,
-                                               Collectors.groupingBy(ProductVariation::getColor,
-                                                       Collectors.mapping(this::productAttributesToDto, Collectors.toList()))));
+                        Collectors.groupingBy(ProductVariation::getColor,
+                                Collectors.mapping(this::productAttributesToDto, Collectors.toList()))));
 
 
     }

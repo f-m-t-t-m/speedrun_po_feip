@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.fefu.ecommerceapi.entity.Product;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 

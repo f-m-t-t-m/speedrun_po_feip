@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
@@ -36,7 +37,7 @@ public class SmsService {
         return url + String.format("number=%s&text=%s&sign=SMS Aero", phone, code);
     }
 
-    private HttpHeaders createHeaders(String username, String password){
+    private HttpHeaders createHeaders(String username, String password) {
         return new HttpHeaders() {{
             String auth = username + ":" + password;
             String encodedAuth = Base64.encodeBase64String(auth.getBytes(StandardCharsets.UTF_8));

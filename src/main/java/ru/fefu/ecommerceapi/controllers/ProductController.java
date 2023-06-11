@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
+import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
 import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
 import ru.fefu.ecommerceapi.services.ProductService;
 

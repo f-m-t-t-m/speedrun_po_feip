@@ -8,14 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.fefu.ecommerceapi.security.Role;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "users")
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {

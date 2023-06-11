@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivationException extends ApiException {
+public class RegisterException extends ApiException {
 
     private Throwable cause;
     private String message;
 
-    public ActivationException(Throwable cause) {
+    public RegisterException(Throwable cause) {
         super(cause);
         this.cause = cause;
     }
 
-    public ActivationException(String message) {
+    public RegisterException(String message) {
         super(message);
         this.message = message;
     }

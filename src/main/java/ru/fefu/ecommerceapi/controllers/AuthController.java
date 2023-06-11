@@ -2,10 +2,7 @@ package ru.fefu.ecommerceapi.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.fefu.ecommerceapi.dto.auth.ActivationRequest;
 import ru.fefu.ecommerceapi.dto.auth.RefreshRequest;
 import ru.fefu.ecommerceapi.dto.auth.UserDto;
@@ -38,6 +35,12 @@ public class AuthController {
     @PostMapping("/activate")
     public ResponseEntity<?> activate(@RequestBody ActivationRequest activationRequest) {
         activationCodeService.activate(activationRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/resend-activation-token/{phone}")
+    public ResponseEntity<?> resendActivationToken(@PathVariable String phone) {
+        activationCodeService.resendActivationToken(phone);
         return ResponseEntity.ok().build();
     }
 
