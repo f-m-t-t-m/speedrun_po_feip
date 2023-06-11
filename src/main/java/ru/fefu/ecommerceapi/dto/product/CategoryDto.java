@@ -1,12 +1,10 @@
-package ru.fefu.ecommerceapi.dto;
+package ru.fefu.ecommerceapi.dto.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor

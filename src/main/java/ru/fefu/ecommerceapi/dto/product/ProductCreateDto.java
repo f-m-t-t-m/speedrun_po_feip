@@ -1,7 +1,8 @@
-package ru.fefu.ecommerceapi.dto;
+package ru.fefu.ecommerceapi.dto.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.fefu.ecommerceapi.dto.order.ProductVariationDto;
 import ru.fefu.ecommerceapi.entity.Category;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class ProductCreateDto {
     private String brand;
     private String description;
     private Category category;
-    private List<ProductAttributesDto> productAttributes = new ArrayList<>();
+    private List<ProductVariationDto> productAttributes = new ArrayList<>();
     private List<ImageCreateDto> images = new ArrayList<>();
 
 }

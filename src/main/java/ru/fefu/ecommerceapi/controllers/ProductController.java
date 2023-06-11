@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.fefu.ecommerceapi.dto.ProductCreateDto;
+import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
+import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
 import ru.fefu.ecommerceapi.services.ProductService;
 
 @RestController
@@ -30,6 +31,12 @@ public class ProductController {
     public ResponseEntity<?> createProduct(@ModelAttribute ProductCreateDto productCreateDto) {
         productService.saveProduct(productCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editProduct(@PathVariable Long id, @ModelAttribute ProductUpdateDto productUpdateDto) {
+        productService.update(id, productUpdateDto);
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -2,12 +2,9 @@ package ru.fefu.ecommerceapi.services.pagination;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.fefu.ecommerceapi.dto.ProductDto;
-import ru.fefu.ecommerceapi.dto.UserDto;
+import ru.fefu.ecommerceapi.dto.auth.UserDto;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
-import ru.fefu.ecommerceapi.mappers.ProductMapper;
 import ru.fefu.ecommerceapi.mappers.UserMapper;
-import ru.fefu.ecommerceapi.repository.CustomProductRepository;
 import ru.fefu.ecommerceapi.repository.CustomUserRepository;
 
 import java.util.List;

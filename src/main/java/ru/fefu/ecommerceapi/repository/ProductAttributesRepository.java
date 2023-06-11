@@ -1,7 +1,7 @@
 package ru.fefu.ecommerceapi.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.fefu.ecommerceapi.entity.ProductAttributes;
+import ru.fefu.ecommerceapi.entity.ProductVariation;
 
-public interface ProductAttributesRepository extends CrudRepository<ProductAttributes, Long> {
+public interface ProductAttributesRepository extends CrudRepository<ProductVariation, Long> {
 }

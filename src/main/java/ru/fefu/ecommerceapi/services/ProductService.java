@@ -1,25 +1,16 @@
 package ru.fefu.ecommerceapi.services;
 
-import jakarta.servlet.ServletContext;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.dto.ImageCreateDto;
-import ru.fefu.ecommerceapi.dto.ProductCreateDto;
-import ru.fefu.ecommerceapi.dto.ProductDto;
-import ru.fefu.ecommerceapi.entity.Image;
+import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
+import ru.fefu.ecommerceapi.dto.product.ProductDto;
+import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.exceptions.NotFoundException;
 import ru.fefu.ecommerceapi.mappers.ProductMapper;
-import ru.fefu.ecommerceapi.repository.ImageRepository;
 import ru.fefu.ecommerceapi.repository.ProductRepository;
 import ru.fefu.ecommerceapi.services.pagination.PaginationService;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -36,11 +27,22 @@ public class ProductService extends PaginationService<ProductDto> {
                 .orElseThrow(NotFoundException::new);
     }
 
+    @Transactional
     public void saveProduct(ProductCreateDto productCreateDto) {
         Product product = productMapper.createDtoToEntity(productCreateDto);
         product.getProductAttributes().forEach(attr -> attr.setProduct(product));
         productRepository.save(product);
         imageService.saveImages(productCreateDto.getImages(), product);
+    }
+
+    @Transactional
+    public void update(Long id, ProductUpdateDto productUpdateDto) {
+        Product product = productRepository.findByIdWithVariations(id)
+                .orElseThrow(NotFoundException::new);
+        productMapper.updateProduct(productUpdateDto, product);
+        product.getProductAttributes().forEach(attr -> attr.setProduct(product));
+        imageService.saveImages(productUpdateDto.getImagesToAdd(), product);
+        imageService.deleteImages(product.getId(), productUpdateDto.getImagesToDelete());
     }
 
 }

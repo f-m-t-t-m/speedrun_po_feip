@@ -1,11 +1,9 @@
 package ru.fefu.ecommerceapi.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.dto.ImageCreateDto;
-import ru.fefu.ecommerceapi.dto.ImageDto;
-import ru.fefu.ecommerceapi.dto.ProductCreateDto;
+import ru.fefu.ecommerceapi.dto.product.ImageCreateDto;
+import ru.fefu.ecommerceapi.dto.product.ImageDto;
 import ru.fefu.ecommerceapi.entity.Image;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.exceptions.FileUploadException;
@@ -40,6 +38,18 @@ public class ImageService {
             throw new FileUploadException(e);
         }
         imageRepository.saveAll(images);
+    }
+
+    public void deleteImages(Long productId, List<ImageDto> imageDtos) {
+        for (ImageDto imageDto: imageDtos) {
+            String imageFileName = imageDto.getUrl().substring(imageDto.getUrl().lastIndexOf('/') + 1);
+            File image = new File(String.format("src/main/images/%d/%s", productId, imageFileName));
+            if (!image.isFile()) {
+                continue;
+            }
+            image.delete();
+            imageRepository.deleteByUrl(imageDto.getUrl());
+        }
     }
 
 }

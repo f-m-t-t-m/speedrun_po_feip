@@ -1,4 +1,4 @@
-package ru.fefu.ecommerceapi.dto;
+package ru.fefu.ecommerceapi.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

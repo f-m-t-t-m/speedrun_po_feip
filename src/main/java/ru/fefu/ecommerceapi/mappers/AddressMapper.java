@@ -2,18 +2,14 @@ package ru.fefu.ecommerceapi.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MapperConfig;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import ru.fefu.ecommerceapi.dto.auth.UserDto;
-import ru.fefu.ecommerceapi.entity.User;
+import ru.fefu.ecommerceapi.dto.order.AddressDto;
+import ru.fefu.ecommerceapi.entity.Address;
 
 @Mapper(componentModel = "spring")
 @MapperConfig(unmappedTargetPolicy = ReportingPolicy.IGNORE, unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
+public interface AddressMapper {
 
-    User dtoToEntity(UserDto userDto);
-
-    @Mapping(target = "password", ignore = true)
-    UserDto entityToDto(User user);
+    Address dtoToEntity(AddressDto addressDto);
 
 }

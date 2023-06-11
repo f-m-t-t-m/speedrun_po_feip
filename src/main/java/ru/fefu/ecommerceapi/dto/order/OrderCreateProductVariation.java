@@ -1,4 +1,4 @@
-package ru.fefu.ecommerceapi.dto;
+package ru.fefu.ecommerceapi.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivationRequest {
+public class OrderCreateProductVariation {
 
-    private String phone;
-    private String code;
+    private Long id;
+    private Long count;
 
 }

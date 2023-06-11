@@ -1,12 +1,10 @@
 package ru.fefu.ecommerceapi.services;
 
-import ch.qos.logback.core.joran.spi.ActionException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.boot.model.process.internal.UserTypeResolution;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.dto.ActivationRequest;
+import ru.fefu.ecommerceapi.dto.auth.ActivationRequest;
 import ru.fefu.ecommerceapi.entity.ActivationCode;
 import ru.fefu.ecommerceapi.entity.User;
 import ru.fefu.ecommerceapi.exceptions.ActivationException;

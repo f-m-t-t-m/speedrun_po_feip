@@ -1,4 +1,4 @@
-package ru.fefu.ecommerceapi.dto;
+package ru.fefu.ecommerceapi.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshRequest {
+public class ActivationRequest {
 
-    private String refreshToken;
+    private String phone;
+    private String code;
 
 }

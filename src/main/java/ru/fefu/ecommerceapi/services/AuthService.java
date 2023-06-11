@@ -7,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.dto.TokenResponse;
-import ru.fefu.ecommerceapi.dto.UserDto;
+import ru.fefu.ecommerceapi.dto.auth.TokenResponse;
+import ru.fefu.ecommerceapi.dto.auth.UserDto;
 import ru.fefu.ecommerceapi.entity.User;
 import ru.fefu.ecommerceapi.mappers.UserMapper;
 import ru.fefu.ecommerceapi.repository.UserRepository;

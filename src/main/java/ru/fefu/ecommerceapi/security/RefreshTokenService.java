@@ -4,16 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.dto.TokenResponse;
+import ru.fefu.ecommerceapi.dto.auth.TokenResponse;
 import ru.fefu.ecommerceapi.entity.RefreshToken;
 import ru.fefu.ecommerceapi.entity.User;
 import ru.fefu.ecommerceapi.exceptions.RefreshTokenException;
 import ru.fefu.ecommerceapi.repository.RefreshTokenRepository;
-import ru.fefu.ecommerceapi.repository.UserRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 

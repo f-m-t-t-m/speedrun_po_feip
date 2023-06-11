@@ -1,4 +1,4 @@
-package ru.fefu.ecommerceapi.dto;
+package ru.fefu.ecommerceapi.dto.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

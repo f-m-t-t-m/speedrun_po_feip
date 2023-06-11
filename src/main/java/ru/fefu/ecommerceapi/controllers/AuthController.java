@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.fefu.ecommerceapi.dto.ActivationRequest;
-import ru.fefu.ecommerceapi.dto.RefreshRequest;
-import ru.fefu.ecommerceapi.dto.UserDto;
+import ru.fefu.ecommerceapi.dto.auth.ActivationRequest;
+import ru.fefu.ecommerceapi.dto.auth.RefreshRequest;
+import ru.fefu.ecommerceapi.dto.auth.UserDto;
 import ru.fefu.ecommerceapi.services.ActivationCodeService;
 import ru.fefu.ecommerceapi.services.AuthService;
 

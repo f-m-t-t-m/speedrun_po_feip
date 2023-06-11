@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.fefu</groupId>
 	<artifactId>e-commerce-api</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>e-commerce-api</name>
 	<description>Demo</description>
 	<properties>

@@ -7,13 +7,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
-import ru.fefu.ecommerceapi.dto.enums.Color;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
-import ru.fefu.ecommerceapi.entity.Product;
-import ru.fefu.ecommerceapi.entity.ProductAttributes;
 import ru.fefu.ecommerceapi.entity.User;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Repository
@@ -33,7 +29,6 @@ public class CustomUserRepository {
                 .getSingleResult();
     }
 
-    @Transactional
     public List<User> findUsersByPagination(PaginationParams paginationParams) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
@@ -46,6 +41,8 @@ public class CustomUserRepository {
             query.orderBy(order);
         }
         return em.createQuery(query.select(root).where(predicates.toArray(new Predicate[predicates.size() ])))
+                .setFirstResult((paginationParams.getCurrentPage() - 1) * paginationParams.getItemsOnPage())
+                .setMaxResults(paginationParams.getItemsOnPage())
                 .getResultList();
     }
 

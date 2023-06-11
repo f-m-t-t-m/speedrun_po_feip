@@ -1,7 +1,7 @@
 package ru.fefu.ecommerceapi.mappers;
 
 import org.mapstruct.*;
-import ru.fefu.ecommerceapi.dto.CategoryDto;
+import ru.fefu.ecommerceapi.dto.product.CategoryDto;
 import ru.fefu.ecommerceapi.entity.Category;
 
 @Mapper(componentModel = "spring")
