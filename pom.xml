@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.fefu</groupId>
 	<artifactId>e-commerce-api</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>e-commerce-api</name>
 	<description>Demo</description>
 	<properties>
@@ -88,7 +88,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${project.parent.version}</version>
 				<configuration>
 					<addResources>true</addResources>
 					<excludes>
@@ -99,12 +99,10 @@
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.5.2.Final</version>
-							<path>
-								<groupId>org.projectlombok</groupId>
-								<artifactId>lombok-mapstruct-binding</artifactId>
-								<version>0.2.0</version>
-							</path>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
 						</path>
 					</excludes>
 				</configuration>

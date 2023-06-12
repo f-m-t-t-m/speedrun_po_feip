@@ -9,7 +9,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ProductAttributesDto {
 
-    private int stock;
+    private Long sku;
+    private Integer stock;
     private BigDecimal price;
 
 }

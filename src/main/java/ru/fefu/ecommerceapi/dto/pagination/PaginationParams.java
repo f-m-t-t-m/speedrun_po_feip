@@ -1,5 +1,7 @@
 package ru.fefu.ecommerceapi.dto.pagination;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +17,9 @@ import java.util.Map;
 public class PaginationParams {
 
     @Builder.Default
+    @Min(1)
     private Integer currentPage = 1;
+    @Positive
     private Integer itemsOnPage = 10;
     @Builder.Default
     private String sortingBy = "id";
