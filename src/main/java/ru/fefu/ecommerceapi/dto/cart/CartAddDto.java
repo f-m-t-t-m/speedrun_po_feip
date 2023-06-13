@@ -1,4 +1,4 @@
-package ru.fefu.ecommerceapi.dto.order;
+package ru.fefu.ecommerceapi.dto.cart;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderCreateProductVariation {
+public class CartAddDto {
 
     @NotNull
-    private Long id;
+    private Long Sku;
     @NotNull
     private Long count;
 

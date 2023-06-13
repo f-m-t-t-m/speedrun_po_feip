@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Query(value = "select p from Product p " +
-            "join fetch p.productAttributes pa where p.id = :id")
+            "join fetch p.productVariations pa where p.id = :id")
     Optional<Product> findByIdWithVariations(Long id);
 
     @Query(value = "select p from Product p " +
-            "join fetch p.productAttributes pa " +
+            "join fetch p.productVariations pa " +
             "join fetch p.images im " +
             "where pa.sku = :sku and pa.color = im.color")
     Optional<Product> findProductByVariationSku(Long sku);

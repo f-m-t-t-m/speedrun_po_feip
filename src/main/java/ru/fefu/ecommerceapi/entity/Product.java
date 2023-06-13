@@ -30,7 +30,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true)
-    private Set<ProductVariation> productAttributes = new LinkedHashSet<>();
+    private Set<ProductVariation> productVariations = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Image> images = new LinkedHashSet<>();

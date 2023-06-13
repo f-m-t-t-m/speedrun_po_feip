@@ -52,7 +52,7 @@ public class CustomProductRepository {
                 .setMaxResults(paginationParams.getItemsOnPage())
                 .getResultList();
 
-        root.fetch("productAttributes", JoinType.INNER);
+        root.fetch("productVariations", JoinType.INNER);
         root.fetch("images", JoinType.LEFT);
 
         return em.createQuery(query.select(root).where(root.get("id").in(ids)))
@@ -66,7 +66,7 @@ public class CustomProductRepository {
             order = sortingOrder.equals("desc") ? cb.desc(root.get(sortingBy)) : cb.asc(root.get(sortingBy));
         } else {
             Subquery<BigDecimal> orderQuery = query.subquery(BigDecimal.class);
-            Join<Product, ProductVariation> orderJoin = orderQuery.correlate(root).join("productAttributes");
+            Join<Product, ProductVariation> orderJoin = orderQuery.correlate(root).join("productVariations");
             orderQuery.select(cb.max(orderJoin.get("price")));
             order = sortingOrder.equals("desc") ? cb.desc(orderQuery) : cb.asc(orderQuery);
         }
@@ -93,9 +93,13 @@ public class CustomProductRepository {
 
     private Predicate createProductsAttributesPredicate(CriteriaBuilder cb, Root<Product> root, String key, String value) {
         if (key.equals("color")) {
-            return cb.equal(root.get("productAttributes").get(key), Color.valueOf(value));
+            return cb.equal(root.get("productVariations").get(key), Color.valueOf(value));
+        } if (key.equals("priceStart")) {
+            return cb.greaterThanOrEqualTo(root.get("productVariations").get("price"), value);
+        } if (key.equals("priceEnd")) {
+            return cb.lessThanOrEqualTo(root.get("productVariations").get("price"), value);
         } else {
-            return cb.equal(root.get("productAttributes").get(key), value);
+            return cb.equal(root.get("productVariations").get(key), value);
         }
     }
 

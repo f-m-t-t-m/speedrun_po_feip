@@ -17,7 +17,7 @@ public class ProductDto {
     private String name;
     private String brand;
     private String description;
-    private Map<String, Map<Color, List<ProductAttributesDto>>> productAttributes = new LinkedHashMap<>();
+    private Map<String, Map<Color, List<ProductAttributesDto>>> productVariations = new LinkedHashMap<>();
     private List<ImageDto> images = new ArrayList<>();
 
 }

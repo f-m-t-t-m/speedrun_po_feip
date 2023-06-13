@@ -28,17 +28,19 @@
             <column name="description" type="TEXT"/>
         </createTable>
         
-        <createTable tableName="product_attributes">
+        <createTable tableName="product_variations">
             <column autoIncrement="true" name="sku" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="product_attributes_pkey"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="product_variations_pkey"/>
             </column>
             <column name="product_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="fk_product_id" references="products(id)"/>
             </column>
             <column name="size" type="VARCHAR(10)"/>
             <column name="color" type="VARCHAR(10)"/>
-            <column name="stock" type="INT"/>
+            <column name="stock" type="INT" defaultValue="0"/>
+            <column name="count_on_fitting" type="INT" defaultValue="0" />
             <column name="price" type="NUMERIC"/>
+            <column name="version" type="INT" defaultValue="0" />
         </createTable>
     </changeSet>
 
@@ -103,21 +105,21 @@
             <column name="category_id" value="12"/>
             <column name="description" value="A true hybrid of style and comfort, the Nike Everyday Plus Crew Socks are cushioned in keys zones to keep you comfortable throughout the day. Dri-FIT fabric and breathable mesh at the top of your foot help keep your feet feeling cool and dry while an arch band provides a snug fit." />
         </insert>
-        <insert tableName="product_attributes">
+        <insert tableName="product_variations">
             <column name="size" value="S"/>
             <column name="color" value="ORANGE"/>
             <column name="stock" value="10"/>
             <column name="price" value="800"/>
             <column name="product_id" value="1"/>
         </insert>
-        <insert tableName="product_attributes">
+        <insert tableName="product_variations">
             <column name="size" value="M"/>
             <column name="color" value="ORANGE"/>
             <column name="stock" value="10"/>
             <column name="price" value="800"/>
             <column name="product_id" value="1"/>
         </insert>
-        <insert tableName="product_attributes">
+        <insert tableName="product_variations">
             <column name="size" value="L"/>
             <column name="color" value="BLACK"/>
             <column name="stock" value="10"/>
@@ -130,7 +132,7 @@
             <column name="category_id" value="6"/>
             <column name="description" value="The Nike Sportswear Premium Essentials T-Shirt has a loose fit for a carefree, comfortable look. Its heavyweight organic cotton fabric feels thick and soft. This product is made with at least 75% organic cotton fibers." />
         </insert>
-        <insert tableName="product_attributes">
+        <insert tableName="product_variations">
             <column name="size" value="L"/>
             <column name="color" value="VIOLET"/>
             <column name="stock" value="10"/>

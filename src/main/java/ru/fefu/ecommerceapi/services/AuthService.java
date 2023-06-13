@@ -4,9 +4,11 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -69,6 +71,13 @@ public class AuthService {
 
     public TokenResponse refresh(String refreshToken) {
         return refreshTokenService.refresh(refreshToken);
+    }
+
+    public User getUserFromAuth(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+        return (User) authentication.getPrincipal();
     }
 
     @PostConstruct

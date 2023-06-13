@@ -3,7 +3,7 @@ package ru.fefu.ecommerceapi.services;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.fefu.ecommerceapi.dto.product.ProductDto;
+import ru.fefu.ecommerceapi.dto.product.ShortProductDto;
 import ru.fefu.ecommerceapi.entity.Favorites;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
 import ru.fefu.ecommerceapi.entity.User;
@@ -11,9 +11,8 @@ import ru.fefu.ecommerceapi.exceptions.NotFoundException;
 import ru.fefu.ecommerceapi.mappers.ProductMapper;
 import ru.fefu.ecommerceapi.repository.FavoritesRepository;
 import ru.fefu.ecommerceapi.repository.ProductAttributesRepository;
-import ru.fefu.ecommerceapi.repository.ProductRepository;
-import ru.fefu.ecommerceapi.repository.UserRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -21,28 +20,35 @@ import java.util.List;
 public class FavoritesService {
 
     private final FavoritesRepository favoritesRepository;
-    private final UserRepository userRepository;
     private final ProductAttributesRepository productAttributesRepository;
     private final ProductMapper productMapper;
 
-    public void addToFavorites(Long userId, Long sku) {
-        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+    public void addToFavorites(Long sku, User user) {
         ProductVariation productVariation = productAttributesRepository.findBySku(sku)
                 .orElseThrow(NotFoundException::new);
+        if (isProductInFavorites(sku, user)) {
+            return;
+        }
         Favorites favorites = new Favorites();
         favorites.setUser(user);
         favorites.setProductVariation(productVariation);
         favoritesRepository.save(favorites);
     }
 
-    public List<ProductDto> getFavorites(Long userId) {
-        return favoritesRepository.getFavoritesProductsByUserId(userId)
-                .stream().map(productMapper::entityToDto).toList();
+    public boolean isProductInFavorites(Long sku, User user) {
+        return favoritesRepository.findByUserIdAndProductVariationSku(user.getId(), sku).isPresent();
+    }
+
+    public List<ShortProductDto> getFavorites(User user) {
+        return favoritesRepository.getFavoritesProductsByUserId(user.getId())
+                .stream().map(productMapper::entityToShortDto)
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     @Transactional
-    public void deleteFromFavorites(Long userId, Long sku) {
-        favoritesRepository.deleteByUserIdAndProductVariationSku(userId, sku);
+    public void deleteFromFavorites(Long sku, User user) {
+        favoritesRepository.deleteByUserIdAndProductVariationSku(user.getId(), sku);
     }
 
 }

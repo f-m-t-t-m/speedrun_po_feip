@@ -2,13 +2,12 @@ package ru.fefu.ecommerceapi.mappers;
 
 import org.mapstruct.*;
 import ru.fefu.ecommerceapi.dto.enums.Color;
-import ru.fefu.ecommerceapi.dto.product.ProductAttributesDto;
-import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
-import ru.fefu.ecommerceapi.dto.product.ProductDto;
-import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
+import ru.fefu.ecommerceapi.dto.product.*;
+import ru.fefu.ecommerceapi.entity.Image;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +29,24 @@ public interface ProductMapper {
 
 
     }
+
+    default List<ShortProductDto> entityToShortDto(Product product) {
+        return product.getProductVariations().stream()
+                .map(productVariation -> new ShortProductDto(
+                        productVariation.getSku(),
+                        product.getName(),
+                        productVariation.getColor(),
+                        productVariation.getSize(),
+                        productVariation.getStock(),
+                        product.getImages().stream()
+                                .filter(image -> image.getColor().equals(productVariation.getColor()))
+                                .map(this::imageToDto)
+                                .toList()
+                ))
+                .toList();
+    }
+
+    ImageDto imageToDto(Image image);
 
     @Mapping(target = "images", ignore = true)
     Product createDtoToEntity(ProductCreateDto productCreateDto);

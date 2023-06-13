@@ -10,6 +10,10 @@ import lombok.ToString;
 public enum Role {
 
     ADMIN,
-    USER
+    USER;
+
+    public String toString() {
+        return this.name();
+    }
 
 }

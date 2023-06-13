@@ -5,12 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.fefu.ecommerceapi.dto.enums.Color;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageDto {
+public class ShortProductDto {
 
+    private Long sku;
+    private String name;
     private Color color;
-    private String url;
+    private String size;
+    private Long stock;
+    private List<ImageDto> images;
 
 }

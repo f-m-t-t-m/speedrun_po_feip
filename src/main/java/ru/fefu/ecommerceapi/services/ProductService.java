@@ -33,7 +33,7 @@ public class ProductService extends PaginationService<ProductDto> {
     @Transactional
     public void saveProduct(@Valid ProductCreateDto productCreateDto) {
         Product product = productMapper.createDtoToEntity(productCreateDto);
-        product.getProductAttributes().forEach(attr -> attr.setProduct(product));
+        product.getProductVariations().forEach(attr -> attr.setProduct(product));
         productRepository.save(product);
         imageService.saveImages(productCreateDto.getImages(), product);
     }
@@ -43,7 +43,7 @@ public class ProductService extends PaginationService<ProductDto> {
         Product product = productRepository.findByIdWithVariations(id)
                 .orElseThrow(NotFoundException::new);
         productMapper.updateProduct(productUpdateDto, product);
-        product.getProductAttributes().forEach(attr -> attr.setProduct(product));
+        product.getProductVariations().forEach(attr -> attr.setProduct(product));
         imageService.saveImages(productUpdateDto.getImagesToAdd(), product);
         imageService.deleteImages(product.getId(), productUpdateDto.getImagesToDelete());
     }

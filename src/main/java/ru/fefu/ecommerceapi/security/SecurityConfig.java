@@ -22,7 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-    private final String[] publicUrls = {"auth/**", "categories/**", "/products/**", "/orders/**", "/favorites/**"};
+    private final String[] publicUrls = {"auth/**", "categories/**", "/products/**", "/orders/**", "/favorites/**",
+    "/cart/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

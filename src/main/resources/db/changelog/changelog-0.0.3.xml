@@ -35,7 +35,7 @@
     <changeSet id="create-product-variation-order-table" author="aglicheeva">
         <createTable tableName="product_variation_order">
             <column name="product_variation_sku" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_product_attributes_sku" references="product_attributes(sku)"/>
+                <constraints nullable="false" foreignKeyName="fk_product_variations_sku" references="product_variations(sku)"/>
             </column>
             <column name="order_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="fk_order_id" references="orders(id)"/>

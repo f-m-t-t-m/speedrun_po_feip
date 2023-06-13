@@ -21,7 +21,7 @@ public class ProductUpdateDto {
     private String description;
     @NotNull
     private Category category;
-    private List<ProductVariationDto> productAttributes = new ArrayList<>();
+    private List<ProductVariationDto> productVariations = new ArrayList<>();
     private List<ImageCreateDto> imagesToAdd = new ArrayList<>();
     private List<ImageDto> imagesToDelete = new ArrayList<>();
 

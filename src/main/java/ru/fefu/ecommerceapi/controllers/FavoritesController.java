@@ -3,7 +3,10 @@ package ru.fefu.ecommerceapi.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import ru.fefu.ecommerceapi.services.AuthService;
 import ru.fefu.ecommerceapi.services.FavoritesService;
 
 @RestController
@@ -12,21 +15,25 @@ import ru.fefu.ecommerceapi.services.FavoritesService;
 public class FavoritesController {
 
     private final FavoritesService favoritesService;
+    private final AuthService authService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getProductBySku(@PathVariable Long userId) {
-        return ResponseEntity.ok(favoritesService.getFavorites(userId));
+    @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> getFavorites(Authentication auth) {
+        return ResponseEntity.ok(favoritesService.getFavorites(authService.getUserFromAuth(auth)));
     }
 
-    @PostMapping("/{userId}/{sku}")
-    public ResponseEntity<?> addToFavorites(@PathVariable Long userId, @PathVariable Long sku) {
-        favoritesService.addToFavorites(userId, sku);
+    @PostMapping("/{sku}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> addToFavorites(@PathVariable Long sku, Authentication auth) {
+        favoritesService.addToFavorites(sku, authService.getUserFromAuth(auth));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{userId}/{sku}")
-    public ResponseEntity<?> deleteFromFavorites(@PathVariable Long userId, @PathVariable Long sku) {
-        favoritesService.deleteFromFavorites(userId, sku);
+    @DeleteMapping("/{sku}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> deleteFromFavorites(@PathVariable Long sku, Authentication auth) {
+        favoritesService.deleteFromFavorites(sku, authService.getUserFromAuth(auth));
         return ResponseEntity.ok().build();
     };
 
