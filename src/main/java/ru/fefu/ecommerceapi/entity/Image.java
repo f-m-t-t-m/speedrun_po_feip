@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import ru.fefu.ecommerceapi.dto.enums.Color;
 
 @Entity
 @Setter
@@ -18,7 +17,8 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "color_id")
     private Color color;
     private String url;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -23,6 +23,12 @@ public class FavoritesController {
         return ResponseEntity.ok(favoritesService.getFavorites(authService.getUserFromAuth(auth)));
     }
 
+    @GetMapping("/{sku}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> isInFavorites(@PathVariable Long sku, Authentication auth) {
+        return ResponseEntity.ok(favoritesService.isProductInFavorites(sku, authService.getUserFromAuth(auth)));
+    }
+
     @PostMapping("/{sku}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> addToFavorites(@PathVariable Long sku, Authentication auth) {

@@ -1,12 +1,12 @@
 package ru.fefu.ecommerceapi.mappers;
 
 import org.mapstruct.*;
+import ru.fefu.ecommerceapi.dto.ColorDto;
 import ru.fefu.ecommerceapi.dto.cart.CartDto;
 import ru.fefu.ecommerceapi.dto.cart.CartProductCountDto;
 import ru.fefu.ecommerceapi.dto.product.ImageDto;
-import ru.fefu.ecommerceapi.dto.product.ShortProductDto;
 import ru.fefu.ecommerceapi.entity.Cart;
-import ru.fefu.ecommerceapi.entity.Product;
+import ru.fefu.ecommerceapi.entity.Color;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
 import ru.fefu.ecommerceapi.entity.ProductVariationCart;
 
@@ -31,9 +31,10 @@ public interface CartMapper {
     default List<ImageDto> imageToDto(ProductVariation productVariation) {
         return productVariation.getProduct().getImages().stream()
                 .filter(image -> image.getColor().equals(productVariation.getColor()))
-                .map(image -> new ImageDto(image.getColor(), image.getUrl()))
+                .map(image -> new ImageDto(colorToDto(image.getColor()), image.getUrl()))
                 .toList();
-
     }
+
+    ColorDto colorToDto(Color color);
 
 }

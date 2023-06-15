@@ -2,7 +2,6 @@ package ru.fefu.ecommerceapi.dto.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.fefu.ecommerceapi.dto.enums.Color;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -17,7 +16,7 @@ public class ProductDto {
     private String name;
     private String brand;
     private String description;
-    private Map<String, Map<Color, List<ProductAttributesDto>>> productVariations = new LinkedHashMap<>();
+    private Map<String, Map<String, List<ProductVariationsShortDto>>> productVariations = new LinkedHashMap<>();
     private List<ImageDto> images = new ArrayList<>();
 
 }

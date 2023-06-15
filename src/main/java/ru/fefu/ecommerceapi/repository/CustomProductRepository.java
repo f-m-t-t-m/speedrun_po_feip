@@ -6,7 +6,6 @@ import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
-import ru.fefu.ecommerceapi.dto.enums.Color;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
@@ -52,7 +51,7 @@ public class CustomProductRepository {
                 .setMaxResults(paginationParams.getItemsOnPage())
                 .getResultList();
 
-        root.fetch("productVariations", JoinType.INNER);
+        root.fetch("productVariations", JoinType.INNER).fetch("color", JoinType.INNER);
         root.fetch("images", JoinType.LEFT);
 
         return em.createQuery(query.select(root).where(root.get("id").in(ids)))
@@ -93,7 +92,7 @@ public class CustomProductRepository {
 
     private Predicate createProductsAttributesPredicate(CriteriaBuilder cb, Root<Product> root, String key, String value) {
         if (key.equals("color")) {
-            return cb.equal(root.get("productVariations").get(key), Color.valueOf(value));
+            return cb.equal(root.get("productVariations").get("color").get("name"), value);
         } if (key.equals("priceStart")) {
             return cb.greaterThanOrEqualTo(root.get("productVariations").get("price"), value);
         } if (key.equals("priceEnd")) {

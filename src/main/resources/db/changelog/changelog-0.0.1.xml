@@ -11,9 +11,18 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="category_pkey"/>
             </column>
             <column name="name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(100)" />
             <column name="parent_id" type="BIGINT">
                 <constraints nullable="true" foreignKeyName="fk_parent_id" references="categories(id)"/>
             </column>
+        </createTable>
+
+        <createTable tableName="colors">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="color_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="hex_code" type="VARCHAR(10)"/>
         </createTable>
 
         <createTable tableName="products">
@@ -35,8 +44,10 @@
             <column name="product_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="fk_product_id" references="products(id)"/>
             </column>
+            <column name="color_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_product_color_id" references="colors(id)"/>
+            </column>
             <column name="size" type="VARCHAR(10)"/>
-            <column name="color" type="VARCHAR(10)"/>
             <column name="stock" type="INT" defaultValue="0"/>
             <column name="count_on_fitting" type="INT" defaultValue="0" />
             <column name="price" type="NUMERIC"/>
@@ -98,6 +109,21 @@
         </insert>
     </changeSet>
 
+    <changeSet id="populate_colors" author="aglicheev">
+        <insert tableName="colors">
+            <column name="name" value="Оранжевый"/>
+            <column name="hex_code" value="#FFA500"/>
+        </insert>
+        <insert tableName="colors">
+            <column name="name" value="Черный"/>
+            <column name="hex_code" value="#000000"/>
+        </insert>
+        <insert tableName="colors">
+            <column name="name" value="Фиолетовый"/>
+            <column name="hex_code" value="#800080"/>
+        </insert>
+    </changeSet>
+
     <changeSet id="populate-products" author="aglicheev">
         <insert tableName="products">
             <column name="name" value="Nike Everyday Plus"/>
@@ -107,21 +133,21 @@
         </insert>
         <insert tableName="product_variations">
             <column name="size" value="S"/>
-            <column name="color" value="ORANGE"/>
+            <column name="color_id" value="1"/>
             <column name="stock" value="10"/>
             <column name="price" value="800"/>
             <column name="product_id" value="1"/>
         </insert>
         <insert tableName="product_variations">
             <column name="size" value="M"/>
-            <column name="color" value="ORANGE"/>
+            <column name="color_id" value="1"/>
             <column name="stock" value="10"/>
             <column name="price" value="800"/>
             <column name="product_id" value="1"/>
         </insert>
         <insert tableName="product_variations">
             <column name="size" value="L"/>
-            <column name="color" value="BLACK"/>
+            <column name="color_id" value="2"/>
             <column name="stock" value="10"/>
             <column name="price" value="800"/>
             <column name="product_id" value="1"/>
@@ -134,7 +160,7 @@
         </insert>
         <insert tableName="product_variations">
             <column name="size" value="L"/>
-            <column name="color" value="VIOLET"/>
+            <column name="color_id" value="3"/>
             <column name="stock" value="10"/>
             <column name="price" value="2000"/>
             <column name="product_id" value="2"/>
@@ -150,26 +176,28 @@
             <column name="product_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="fk_image_product_id" references="products(id)"/>
             </column>
-            <column name="color" type="VARCHAR(10)"/>
+            <column name="color_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_image_color_id" references="colors(id)"/>
+            </column>
             <column name="url" type="VARCHAR(100)"/>
         </createTable>
 
         <insert tableName="images">
             <column name="product_id" value="1"/>
-            <column name="color" value="ORANGE"/>
-            <column name="url" value="/image/1/orange.jpg"/>
+            <column name="color_id" value="1"/>
+            <column name="url" value="/images/1/orange.jpg"/>
         </insert>
 
         <insert tableName="images">
             <column name="product_id" value="1"/>
-            <column name="color" value="BLACK"/>
-            <column name="url" value="/image/1/black.jpg"/>
+            <column name="color_id" value="2"/>
+            <column name="url" value="/images/1/black.jpg"/>
         </insert>
 
         <insert tableName="images">
             <column name="product_id" value="2"/>
-            <column name="color" value="VIOLET"/>
-            <column name="url" value="/image/2/violet.jpg"/>
+            <column name="color_id" value="3"/>
+            <column name="url" value="/images/2/violet.jpg"/>
         </insert>
     </changeSet>
 

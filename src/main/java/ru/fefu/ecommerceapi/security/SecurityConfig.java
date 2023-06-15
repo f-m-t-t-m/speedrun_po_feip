@@ -23,7 +23,9 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final String[] publicUrls = {"auth/**", "categories/**", "/products/**", "/orders/**", "/favorites/**",
-    "/cart/**"};
+    "/cart/**", "/images/**"};
+
+    private final String[] adminUrls = {"colors/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,6 +33,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> {
                     authz.requestMatchers(publicUrls).permitAll();
+                    authz.requestMatchers(adminUrls).hasRole("ADMIN");
                     authz.anyRequest().authenticated();
                 })
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

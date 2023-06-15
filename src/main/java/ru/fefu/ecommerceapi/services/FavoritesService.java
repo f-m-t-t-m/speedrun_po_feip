@@ -40,10 +40,7 @@ public class FavoritesService {
     }
 
     public List<ShortProductDto> getFavorites(User user) {
-        return favoritesRepository.getFavoritesProductsByUserId(user.getId())
-                .stream().map(productMapper::entityToShortDto)
-                .flatMap(Collection::stream)
-                .toList();
+        return productMapper.favoritesToShortDto(favoritesRepository.getFavoritesProductsByUserId(user.getId()));
     }
 
     @Transactional

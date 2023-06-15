@@ -1,9 +1,9 @@
-package ru.fefu.ecommerceapi.dto.order;
+package ru.fefu.ecommerceapi.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.fefu.ecommerceapi.dto.enums.Color;
+import ru.fefu.ecommerceapi.dto.ColorDto;
 
 import java.math.BigDecimal;
 
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class ProductVariationDto {
 
     private Long sku;
-    private Color color;
+    private ColorDto color;
     private String size;
     private Long stock;
     private BigDecimal price;

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class ProductAttributesDto {
+public class ProductVariationsShortDto {
 
     private Long sku;
     private Integer stock;

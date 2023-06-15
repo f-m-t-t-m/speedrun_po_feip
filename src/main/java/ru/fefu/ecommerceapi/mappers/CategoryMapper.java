@@ -1,9 +1,8 @@
 package ru.fefu.ecommerceapi.mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MapperConfig;
-import org.mapstruct.ReportingPolicy;
-import ru.fefu.ecommerceapi.dto.product.CategoryDto;
+import org.mapstruct.*;
+import ru.fefu.ecommerceapi.dto.categories.CategoryCreateDto;
+import ru.fefu.ecommerceapi.dto.categories.CategoryDto;
 import ru.fefu.ecommerceapi.entity.Category;
 
 @Mapper(componentModel = "spring")
@@ -11,5 +10,8 @@ import ru.fefu.ecommerceapi.entity.Category;
 public interface CategoryMapper {
 
     CategoryDto categoryEntityToDto(Category category);
+    Category dtoToEntity(CategoryCreateDto categoryDto);
+
+    Category updateCategory(@MappingTarget Category category, CategoryDto categoryDto);
 
 }

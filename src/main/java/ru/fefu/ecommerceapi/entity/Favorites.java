@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -21,5 +23,6 @@ public class Favorites {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     private User user;
+    private LocalDateTime timestamp = LocalDateTime.now();
 
 }

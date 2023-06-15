@@ -4,7 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,6 +35,8 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
     private final ActivationCodeService activationCodeService;
     private final UserMapper userMapper;
+    @Value("${sms.enabled}")
+    private Boolean smsEnabled;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -46,9 +48,14 @@ public class AuthService {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userMapper.updateUser(userDto, user);
         user.setRole(Role.USER);
-        userRepository.save(user);
 
-        activationCodeService.sendActivationToken(userDto.getPhone());
+        if (smsEnabled) {
+            activationCodeService.sendActivationToken(userDto.getPhone());
+        } else {
+            user.setEnabled(true);
+        }
+
+        userRepository.save(user);
         return userMapper.entityToDto(user);
     }
 

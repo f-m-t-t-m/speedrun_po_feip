@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface FavoritesRepository extends CrudRepository<Favorites, FavoritesId> {
 
-    @Query(value = "select p from Favorites f " +
-            "join f.productVariation pa " +
-            "join pa.product p " +
-            "join fetch p.productVariations pa1 " +
+    @Query(value = "select f from Favorites f " +
+            "join fetch f.productVariation pa " +
+            "join fetch pa.product p " +
             "join fetch p.images im " +
-            "where pa.sku = pa1.sku and f.user.id = :userId")
-    List<Product> getFavoritesProductsByUserId(Long userId);
+            "where f.user.id = :userId " +
+            "order by f.timestamp desc")
+    List<Favorites> getFavoritesProductsByUserId(Long userId);
 
     void deleteByUserIdAndProductVariationSku(Long userId, Long sku);
 

@@ -39,7 +39,7 @@ public class CustomOrderRepository {
                 .getResultList();
 
         root.fetch("address", JoinType.LEFT);
-        root.fetch("productVariations", JoinType.LEFT).fetch("productVariation");
+        root.fetch("productVariations", JoinType.LEFT).fetch("productVariation").fetch("product");
 
         if (paginationParams.getSortingBy() != null && paginationParams.getSortingOrder() != null) {
             Order order = paginationParams.getSortingOrder().equals("desc") ?
