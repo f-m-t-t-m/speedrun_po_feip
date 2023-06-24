@@ -3,6 +3,7 @@ package ru.fefu.ecommerceapi.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.fefu.ecommerceapi.dto.categories.CategoryCreateDto;
 import ru.fefu.ecommerceapi.dto.categories.CategoryDto;
@@ -21,18 +22,21 @@ public class CategoryController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> saveCategory(@ModelAttribute CategoryCreateDto categoryDto) {
         categoryService.saveParentCategory(categoryDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> saveCategory(@PathVariable Long id, @ModelAttribute CategoryCreateDto categoryDto) {
         categoryService.saveChildrenCategory(id, categoryDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @ModelAttribute CategoryCreateDto categoryDto) {
         categoryService.updateCategory(id, categoryDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

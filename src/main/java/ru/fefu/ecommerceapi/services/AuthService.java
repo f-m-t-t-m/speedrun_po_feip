@@ -48,6 +48,7 @@ public class AuthService {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userMapper.updateUser(userDto, user);
         user.setRole(Role.USER);
+        userRepository.save(user);
 
         if (smsEnabled) {
             activationCodeService.sendActivationToken(userDto.getPhone());
@@ -55,7 +56,6 @@ public class AuthService {
             user.setEnabled(true);
         }
 
-        userRepository.save(user);
         return userMapper.entityToDto(user);
     }
 

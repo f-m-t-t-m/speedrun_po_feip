@@ -33,6 +33,7 @@ public interface ProductMapper {
                         pv.getProduct().getName(),
                         colorToDto(pv.getColor()),
                         pv.getSize(),
+                        pv.getPrice(),
                         pv.getStock(),
                         pv.getProduct().getImages().stream()
                                 .filter(image -> image.getColor().equals(pv.getColor()))

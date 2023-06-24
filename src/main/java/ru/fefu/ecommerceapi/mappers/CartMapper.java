@@ -23,6 +23,7 @@ public interface CartMapper {
     @Mapping(target = "product.name", source = "productVariationCart.productVariation.product.name")
     @Mapping(target = "product.color", source = "productVariationCart.productVariation.color")
     @Mapping(target = "product.size", source = "productVariationCart.productVariation.size")
+    @Mapping(target = "product.price", source = "productVariationCart.productVariation.price")
     @Mapping(target = "product.stock", source = "productVariationCart.productVariation.stock")
     @Mapping(target = "product.images", source = "productVariationCart.productVariation", qualifiedByName = "images")
     CartProductCountDto productCartToDto(ProductVariationCart productVariationCart);

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.fefu.ecommerceapi.dto.ColorDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -18,6 +19,7 @@ public class ShortProductDto {
     private String name;
     private ColorDto color;
     private String size;
+    private BigDecimal price;
     private Long stock;
     private List<ImageDto> images;
 

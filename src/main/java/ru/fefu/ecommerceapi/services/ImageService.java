@@ -32,8 +32,8 @@ public class ImageService {
         List<Image> images = new ArrayList<>();
         try {
             for (ImageCreateDto image : imagesDto) {
-                Files.createDirectories(Path.of("src/main/images/" + product.getId()));
-                String path = String.format("src/main/images/%d/%s",
+                Files.createDirectories(Path.of("images/" + product.getId()));
+                String path = String.format("images/%d/%s",
                         product.getId(), image.getFile().getOriginalFilename());
                 String url = String.format("/images/%d/%s",
                         product.getId(), image.getFile().getOriginalFilename());
@@ -49,8 +49,8 @@ public class ImageService {
 
     public String saveCategoryImage(CategoryCreateDto category) {
         try {
-            Files.createDirectories(Path.of("src/main/images/categories/" + category.getName()));
-            String path = String.format("src/main/images/categories/%s/%s", category.getName(),
+            Files.createDirectories(Path.of("images/categories/" + category.getName()));
+            String path = String.format("images/categories/%s/%s", category.getName(),
                     category.getImage().getOriginalFilename());
             String url = String.format("/images/categories/%s/%s",
                     category.getName(),  category.getImage().getOriginalFilename());
@@ -63,7 +63,7 @@ public class ImageService {
 
     public void deleteImages(List<String> imageUrls) {
         for (String imageUrl : imageUrls) {
-            File image = new File("src/main" + imageUrl);
+            File image = new File(imageUrl);
             if (!image.isFile()) {
                 continue;
             }
