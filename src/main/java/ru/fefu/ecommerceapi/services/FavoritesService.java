@@ -12,7 +12,6 @@ import ru.fefu.ecommerceapi.mappers.ProductMapper;
 import ru.fefu.ecommerceapi.repository.FavoritesRepository;
 import ru.fefu.ecommerceapi.repository.ProductAttributesRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service

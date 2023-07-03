@@ -3,22 +3,23 @@ package ru.fefu.ecommerceapi.services;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import ru.fefu.ecommerceapi.dto.pagination.PageDto;
+import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.dto.product.ProductCreateDto;
 import ru.fefu.ecommerceapi.dto.product.ProductDto;
 import ru.fefu.ecommerceapi.dto.product.ProductUpdateDto;
-import ru.fefu.ecommerceapi.dto.product.ProductVariationDto;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
 import ru.fefu.ecommerceapi.exceptions.NotFoundException;
 import ru.fefu.ecommerceapi.mappers.ProductMapper;
 import ru.fefu.ecommerceapi.repository.CategoryRepository;
 import ru.fefu.ecommerceapi.repository.ColorRepository;
+import ru.fefu.ecommerceapi.repository.ProductFilterRepository;
 import ru.fefu.ecommerceapi.repository.ProductRepository;
-import ru.fefu.ecommerceapi.services.pagination.PaginationService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,10 +28,11 @@ import java.util.stream.Collectors;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class ProductService extends PaginationService<ProductDto> {
+public class ProductService {
 
     private final ImageService imageService;
     private final ProductRepository productRepository;
+    private final ProductFilterRepository productFilterRepository;
     private final ColorRepository colorRepository;
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
@@ -39,6 +41,15 @@ public class ProductService extends PaginationService<ProductDto> {
         return productRepository.findById(id)
                 .map(productMapper::entityToDto)
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public PageDto<ProductDto> getPageDto(PaginationParams paginationParams) {
+        long count = productFilterRepository.count(paginationParams.getFilters());
+        long pagesCount = (count + paginationParams.getItemsOnPage() - 1) / paginationParams.getItemsOnPage();
+        List<ProductDto> data = productFilterRepository.findByFilters(paginationParams).stream()
+                .map(productMapper::entityToDto)
+                .toList();
+        return new PageDto<>(data, paginationParams.getCurrentPage(), pagesCount, paginationParams.getItemsOnPage());
     }
 
     @Transactional

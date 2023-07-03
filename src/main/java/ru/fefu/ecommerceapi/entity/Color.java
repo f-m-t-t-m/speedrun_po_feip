@@ -1,15 +1,13 @@
 package ru.fefu.ecommerceapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "colors")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Color {

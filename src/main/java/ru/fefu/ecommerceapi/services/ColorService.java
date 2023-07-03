@@ -27,8 +27,7 @@ public class ColorService {
 
     public Long createColor(ColorDto colorDto) {
         Color color = colorMapper.dtoToEntity(colorDto);
-        colorRepository.save(color);
-        return color.getId();
+        return colorRepository.save(color).getId();
     }
 
     @Transactional

@@ -6,4 +6,5 @@ import ru.fefu.ecommerceapi.entity.Order;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
+
 }

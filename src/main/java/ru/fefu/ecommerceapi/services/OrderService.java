@@ -4,20 +4,28 @@ import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.fefu.ecommerceapi.dto.order.OrderCreateDto;
 import ru.fefu.ecommerceapi.dto.order.OrderDto;
+import ru.fefu.ecommerceapi.dto.pagination.PageDto;
+import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.entity.*;
 import ru.fefu.ecommerceapi.exceptions.NotFoundException;
 import ru.fefu.ecommerceapi.exceptions.OrderException;
 import ru.fefu.ecommerceapi.mappers.AddressMapper;
 import ru.fefu.ecommerceapi.mappers.CartMapper;
+import ru.fefu.ecommerceapi.mappers.OrderMapper;
 import ru.fefu.ecommerceapi.mappers.ProductVariationRepository;
 import ru.fefu.ecommerceapi.repository.CartRepository;
+import ru.fefu.ecommerceapi.repository.OrderPagingRepository;
 import ru.fefu.ecommerceapi.repository.OrderRepository;
-import ru.fefu.ecommerceapi.services.pagination.PaginationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +33,16 @@ import java.util.List;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class OrderService extends PaginationService<OrderDto> {
+public class OrderService {
 
     private final CartService cartService;
     private final OrderRepository orderRepository;
+    private final OrderPagingRepository orderPagingRepository;
     private final CartRepository cartRepository;
     private final ProductVariationRepository productRepository;
     private final AddressMapper addressMapper;
     private final CartMapper cartMapper;
+    private final OrderMapper orderMapper;
 
     @Transactional
     @Retryable(retryFor = OptimisticLockException.class, maxAttempts = 3)
@@ -66,6 +76,12 @@ public class OrderService extends PaginationService<OrderDto> {
         }
         order.setProductVariations(productVariationOrderList);
         orderRepository.save(order);
+    }
+
+    public Page<OrderDto> getPageDto(PaginationParams paginationParams) {
+        Pageable pageable = PageRequest.of(paginationParams.getCurrentPage()-1,
+                                                 paginationParams.getItemsOnPage());
+        return orderPagingRepository.findAll(pageable).map(orderMapper::entityToDto);
     }
 
 }

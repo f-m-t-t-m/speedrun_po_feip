@@ -1,38 +1,24 @@
 package ru.fefu.ecommerceapi.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import ru.fefu.ecommerceapi.dto.pagination.PaginationParams;
 import ru.fefu.ecommerceapi.entity.Product;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
+import ru.fefu.ecommerceapi.entity.ProductVariation_;
+import ru.fefu.ecommerceapi.entity.Product_;
 
 import java.math.BigDecimal;
 import java.util.*;
 
 @Repository
-@RequiredArgsConstructor
-public class CustomProductRepository {
-    @PersistenceContext
-    private final EntityManager em;
+public class ProductFilterRepository extends AbstractFilterRepository<Product> {
 
     private final List<String> productAttributesFields = List.of("sku", "color", "size", "priceStart", "priceEnd");
 
-    public long countAllProducts(Map<String, String> filters) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Long> query = cb.createQuery(Long.class);
-        Root<Product> root = query.from(Product.class);
-        List<Predicate> predicates = createPredicates(cb, root, filters);
-
-        return em
-                .createQuery(query.select(cb.count(root)).where(predicates.toArray(new Predicate[predicates.size()])))
-                .getSingleResult();
-    }
-
-    public List<Product> findProductsByPagination(PaginationParams paginationParams) {
+    @Override
+    public List<Product> findByFilters(PaginationParams paginationParams) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -41,24 +27,24 @@ public class CustomProductRepository {
             setOrder(cb, root, query, paginationParams.getSortingBy(), paginationParams.getSortingOrder());
         }
 
-
         CriteriaQuery<Long> idQuery = cb.createQuery(Long.class);
         Root<Product> idRoot = idQuery.from(Product.class);
         List<Predicate> predicates = createPredicates(cb, idRoot, paginationParams.getFilters());
-        List<Long> ids = em.createQuery(idQuery.select(idRoot.get("id")).distinct(true)
-                        .where(predicates.toArray(new Predicate[predicates.size()])))
+        List<Long> ids = em.createQuery(idQuery.select(idRoot.get(Product_.id)).distinct(true)
+                        .where(predicates.toArray(new Predicate[0])))
                 .setFirstResult((paginationParams.getCurrentPage() - 1) * paginationParams.getItemsOnPage())
                 .setMaxResults(paginationParams.getItemsOnPage())
                 .getResultList();
 
-        root.fetch("productVariations", JoinType.INNER).fetch("color", JoinType.INNER);
-        root.fetch("images", JoinType.LEFT);
+        root.fetch(Product_.productVariations, JoinType.INNER).fetch(ProductVariation_.color, JoinType.INNER);
+        root.fetch(Product_.images, JoinType.LEFT);
 
-        return em.createQuery(query.select(root).where(root.get("id").in(ids)))
+        return em.createQuery(query.select(root).where(root.get(Product_.id).in(ids)))
                 .getResultList();
     }
 
-    private void setOrder(CriteriaBuilder cb, Root<Product> root, CriteriaQuery<Product> query,
+    @Override
+    protected void setOrder(CriteriaBuilder cb, Root<Product> root, CriteriaQuery<Product> query,
                           String sortingBy, String sortingOrder) {
         Order order;
         if (sortingBy.equals("id")) {
@@ -72,7 +58,8 @@ public class CustomProductRepository {
         query.orderBy(order);
     }
 
-    private List<Predicate> createPredicates(CriteriaBuilder cb, Root<Product> root, Map<String, String> filters) {
+    @Override
+    protected List<Predicate> createPredicates(CriteriaBuilder cb, Root<Product> root, Map<String, String> filters) {
         List<Predicate> predicates = new ArrayList<>();
         for (var entry : filters.entrySet()) {
             if (StringUtils.isBlank(entry.getValue())) {

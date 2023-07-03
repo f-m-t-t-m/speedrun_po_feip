@@ -8,7 +8,6 @@ import ru.fefu.ecommerceapi.entity.Cart;
 import ru.fefu.ecommerceapi.entity.ProductVariation;
 import ru.fefu.ecommerceapi.entity.ProductVariationCart;
 import ru.fefu.ecommerceapi.entity.User;
-import ru.fefu.ecommerceapi.exceptions.CartException;
 import ru.fefu.ecommerceapi.exceptions.NotFoundException;
 import ru.fefu.ecommerceapi.mappers.CartMapper;
 import ru.fefu.ecommerceapi.mappers.ProductVariationRepository;
